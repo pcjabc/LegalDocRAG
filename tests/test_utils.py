@@ -1,43 +1,28 @@
-import os
-from utils import (
-    count_tokens,
-    prefix_documents_for_e5,
-    hash_filename,
-    format_response,
-    ensure_directory,
-    extract_metadata,
-)
-from langchain_core.documents import Document
+from dataclasses import dataclass, field
+
+from utils import format_response, hash_filename, prefix_documents_for_e5, prefix_query_for_e5
 
 
-def test_count_tokens():
-    assert count_tokens("Isso é um teste.") > 0
+@dataclass
+class FakeDocument:
+    page_content: str
+    metadata: dict = field(default_factory=dict)
 
 
-def test_prefix_documents_for_e5():
-    docs = [Document(page_content="Texto qualquer")]  # simula docling
-    prefixed_docs = prefix_documents_for_e5(docs)
-    assert prefixed_docs[0].page_content.startswith("passage:")
+def test_e5_prefixes_are_asymmetric_and_idempotent() -> None:
+    document = FakeDocument("合同正文")
+    prefix_documents_for_e5([document])
+    prefix_documents_for_e5([document])
+    assert document.page_content == "passage: 合同正文"
+    assert prefix_query_for_e5("付款期限") == "query: 付款期限"
+    assert prefix_query_for_e5("query: 付款期限") == "query: 付款期限"
 
 
-def test_hash_filename():
-    hashed = hash_filename("documento.pdf")
-    assert hashed.endswith(".pdf")
-    assert len(hashed.split(".")[0]) == 32
+def test_hash_filename_keeps_extension() -> None:
+    result = hash_filename("document.pdf")
+    assert result.endswith(".pdf")
+    assert len(result.removesuffix(".pdf")) == 64
 
 
-def test_format_response():
-    texto = "   Resultado da IA\n\ncom espaços.   "
-    assert format_response(texto) == "Resultado da IA\ncom espaços."
-
-
-def test_ensure_directory(tmp_path):
-    temp_dir = tmp_path / "nova_pasta"
-    ensure_directory(temp_dir)
-    assert os.path.exists(temp_dir)
-
-
-def test_extract_metadata():
-    doc = Document(page_content="teste", metadata={"source": "teste.pdf"})
-    result = extract_metadata(doc)
-    assert "teste.pdf" in result
+def test_format_response_removes_blank_lines() -> None:
+    assert format_response("  第一行\n\n第二行  ") == "第一行\n第二行"

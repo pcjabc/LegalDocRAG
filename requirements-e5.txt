@@ -1,0 +1,4 @@
+-r requirements.txt
+# Optional multilingual semantic embeddings; the first run downloads the model.
+sentence-transformers>=3.3,<6
+

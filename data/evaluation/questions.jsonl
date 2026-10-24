@@ -1,0 +1,10 @@
+{"id":"purchase_amount","question":"采购合同的含税总价是多少？","expected_source":"01_采购合同.md","expected_section":"第一条 采购标的","answerable":true,"category":"金额"}
+{"id":"purchase_delivery","question":"设备最晚什么时候送到哪里？","expected_source":"01_采购合同.md","expected_section":"第二条 交付与验收","answerable":true,"category":"日期地点"}
+{"id":"purchase_penalty","question":"逾期交付违约金如何计算，上限是多少？","expected_source":"01_采购合同.md","expected_section":"第四条 逾期交付","answerable":true,"category":"条款定位"}
+{"id":"nda_duration","question":"保密义务在协议终止后持续多久？","expected_source":"02_保密协议.md","expected_section":"第四条 保密期限","answerable":true,"category":"期限"}
+{"id":"nda_return","question":"收到要求后应在多少个工作日内返还或销毁资料？","expected_source":"02_保密协议.md","expected_section":"第五条 资料返还","answerable":true,"category":"数字日期"}
+{"id":"service_sla","question":"一级故障多久响应，多久提供临时恢复方案？","expected_source":"03_技术服务合同.md","expected_section":"第四条 服务等级","answerable":true,"category":"跨句"}
+{"id":"service_training","question":"甲方业务数据能否用于其他模型训练？","expected_source":"03_技术服务合同.md","expected_section":"第六条 数据安全","answerable":true,"category":"禁止事项"}
+{"id":"unknown_vacation","question":"员工每年有多少天带薪年假？","expected_source":null,"expected_section":null,"answerable":false,"category":"拒答"}
+{"id":"unknown_address","question":"乙方注册地址是什么？","expected_source":null,"expected_section":null,"answerable":false,"category":"拒答"}
+
